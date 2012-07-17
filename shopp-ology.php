@@ -2,13 +2,14 @@
 /*
 Plugin Name: Shopp + Ology
 Description: Generate information about your hosting environment to assist with troubleshooting WordPress and Shopp.
-Version: 1.0
+Version: 1.0.1
 Plugin URI: http://optimizemyshopp.com
 Author: Lorenzo Orlando Caum, Enzo12 LLC
 Author URI: http://enzo12.com
 License: GPLv2
 */
-/* (CC BY 3.0) 2012  Lorenzo Orlando Caum  (email : hello@enzo12.com)
+/* 
+(CC BY 3.0) 2012  Lorenzo Orlando Caum  (email : hello@enzo12.com)
 
 	This plugin is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -24,26 +25,32 @@ License: GPLv2
 	along with this plugin.  If not, see <http://www.gnu.org/licenses/>. 
 */
 
+Shopp_Ology::smartLoad();
+
 class Shopp_Ology {
 	public static $yourname;
+	
+	public static function smartLoad() {
+		$instantiate = apply_filters('shoppOlogyLoadBasic', true);
+		if ($instantiate) { new Shopp_Ology; }
+	}
 
 	public function __construct() {
-		add_action('shopp_init', array(&$this, 'init'));
+		add_action('shopp_init', array($this, 'init'));
 		
 		$this->yourname = get_option("shopp_ology_yourname");
 	}
 
 	public function init() {
-		wp_enqueue_style( 'shopp-ology-stylesheet', plugins_url( "css/shopp-ology.css", __FILE__ ), array(), '20120628' );
+		wp_enqueue_style( 'shopp-ology-stylesheet', plugins_url( "css/shopp-ology.css", __FILE__ ), array(), '20121607' );
 		
-		// Actions and filters
-		add_action('admin_menu', array(&$this, 'admin_menu'));
+		add_action('admin_menu', array($this, 'admin_menu'));
 	}
 
 	public function admin_menu() {
 		global $Shopp;
 		$ShoppMenu = $Shopp->Flow->Admin->MainMenu;
-		$page = add_submenu_page($ShoppMenu,__('Shopp + Ology', 'page title'), __('+ Ology','menu title'), defined('SHOPP_USERLEVEL') ? SHOPP_USERLEVEL : 'manage_options', 'shopp-ology', array(&$this, 'render_display_settings'));
+		$page = add_submenu_page($ShoppMenu,__('Shopp + Ology', 'page title'), __('+ Ology','menu title'), defined('SHOPP_USERLEVEL') ? SHOPP_USERLEVEL : 'manage_options', 'shopp-ology', array($this, 'render_display_settings'));
 
 		add_action( 'admin_print_styles-' . $page, 'admin_styles' );
 	}
@@ -60,6 +67,7 @@ class Shopp_Ology {
 			update_option("shopp_ology_yourname", $this->yourname);
 		}
 ?>
+
 <div class="wrap">
 	<h2>Shopp + Ology</h2>
 	<div class="postbox-container" style="width:65%;">
@@ -69,8 +77,10 @@ class Shopp_Ology {
 				<h3 class="hndle"><span>Introduction</span></h3>
 				<div class="inside">
 					<p>This plugin adds an option for generating information about your <a href="http://optimizemyshopp.com/go/shopp/" title="Learn more about Shopp">Shopp</a> and its hosting environment. You can then share this information with your web developer, Shopp consultant, or responding Shopp agent on the Help Desk.</p> 
-					<p><strong>Acknowledgements</strong></p>
+					<strong>Acknowledgements</strong>
+					<br />
 					<p>Credit to <a href="http://optimizemyshopp.com/go/adamsewell/" title="Get in touch with Adam">Adam Sewell</a>, <a href="http://optimizemyshopp.com/go/chrisrunnells/" title="Get in touch with Chris">Chris Runnells</a>, and <a href="http://optimizemyshopp.com/go/jonathandavis/" title="Get in touch with Jonathan Davis">Jonathan Davis</a> who answered my questions on how to retrieve certain data via PHP.</p>
+					<p>Credit to Barry Hughes who identified errors in this plugin and developed the groundwork for extending this plugin further. <a href="http://optimizemyshopp.com/go/barryhughes/" title="Get in touch with Barry Hughes">Go to Barry's website</a></p>
 				</div>
 			</div>
 
@@ -249,20 +259,13 @@ Computer: <?php echo $_SERVER['HTTP_USER_AGENT']. "\n"; ?>
 				<div class="inside">
 					<table border="0" width="100%">
    					 	<tr>
-     						<td width="70%"><div><img style="padding: 5px 10px 0px 0px; float:left" src="http://cdn.optimizemyshopp.com/wp-content/uploads/2012/03/lorenzo-orlando-caum.jpg" border="0" alt="Founder of Enzo12 LLC" width="115" height="160"><p><a href="http://twitter.com/lorenzocaum" >@lorenzocaum</a> is an entrepreneur and a marketer. <br><br>Lorenzo is the founder of Enzo12 LLC, a <a href="http://enzo12.com" title="Enzo12 LLC">web engineering firm</a> <br />in Tampa, FL. He is a graduate from the College of Business at the <br />University of South Florida. <br><br>Lorenzo contributes to the <a href="http://optimizemyshopp.com/go/shopp/" title="Learn more about Shopp">Shopp</a> project as a customer support rep.<br><br>He also has a <a href="http://lorenzocaum.com" title="Read Lorenzo's blog">business, marketing, and technology blog</a>.</p></div></td>
-    					  <td width="30%"><div id="optin">
-						<Big>Get Free Email Updates about Shopp</Big>
-						<form action="http://optimizemyshopp.us2.list-manage1.com/subscribe/post?u=5991854e8288cad7823e23d2e&amp;id=0719c3f096" method="post" target="_blank">
-						<p>
-						<input type="text" name="EMAIL" class="email" value="Enter your email" onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;" />
-						<input name="submit" type="submit" value="Get Started Today!" /></p>
-						</form>
-						</div></td>
+     						<td width="70%"><div><img style="padding: 0px 15px 0px 0px; float:left" src="http://cdn.optimizemyshopp.com/wp-content/uploads/2011/09/lorenzo-orlando-caum-shopp-wordpress-150x150.jpg" border="0" alt="Founder of Enzo12 LLC" width="150" height="150"><p><a href="http://twitter.com/lorenzocaum" >@lorenzocaum</a> is an entrepreneur and a marketer. <br /><br />Lorenzo is the founder of Enzo12 LLC, a <a href="http://enzo12.com" title="Enzo12 LLC">web engineering firm</a> <br />in Tampa, FL. He is a graduate from the College of Business at the <br />University of South Florida. <br /><br />Lorenzo contributes to the <a href="http://optimizemyshopp.com/go/shopp/" title="Learn more about Shopp">Shopp</a> project as a customer support rep.<br /><br />He also has a <a href="http://lorenzocaum.com" title="Read Lorenzo's blog">business, marketing, and technology blog</a>.</p></div></td>
+    					  <td width="30%"></td>
    						</tr>
-					</table>		
+					</table>
 				</div>
 			</div>
-			
+
 		</div>
 	</div>
 	
@@ -272,7 +275,8 @@ Computer: <?php echo $_SERVER['HTTP_USER_AGENT']. "\n"; ?>
 			<div id="shopp-ology-donate" class="postbox">
 				<h3 class="hndle"><span><strong>Make a Donation!</strong></span></h3>
 				<div class="inside">
-					<p>Hi friend!</p><p>If this plugin is helpful to you, then please <a href="http://optimizemyshopp.com/go/donate-shopp-ology/">buy me a Redbull</a>.</p> 
+					<p>Hi friend!</p>
+					<p>If this plugin is helpful to you, then please <a href="http://optimizemyshopp.com/go/donate-shopp-ology/">buy me a Redbull</a>.</p> 
 					<p>You can also tip me through the <a href="http://optimizemyshopp.com/go/tip-shopp-help-desk/">Shopp Help Desk</a>.</p>
 					<p>Your kindness is appreciated and will go towards <em>continued development</em> of the Shopp + Ology plugin.</p>
 				</div>
@@ -281,12 +285,16 @@ Computer: <?php echo $_SERVER['HTTP_USER_AGENT']. "\n"; ?>
 			<div id="shopp-ology-subscribe" class="postbox">
 				<h3 class="hndle"><span>Free Email Updates</span></h3>
 				<div class="inside">
-					<p>Get infrequent email updates delivered right to your inbox about getting the most from your Shopp.</p>
-					<p><div id="optin">
-					<form action="http://optimizemyshopp.us2.list-manage1.com/subscribe/post?u=5991854e8288cad7823e23d2e&amp;id=0719c3f096" method="post" target="_blank">
+					<p>Get infrequent email updates delivered right to your inbox about getting the most from Shopp.</p>
+					<div id="optin">
 					<p>
+					<form action="http://optimizemyshopp.us2.list-manage1.com/subscribe/post?u=5991854e8288cad7823e23d2e&amp;id=0719c3f096" method="post" target="_blank">
+
 					<input type="text" name="EMAIL" class="email" value="Enter your email" onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;" />
-					<input name="submit" type="submit" value="Get Started!" /></p></form></div></p>				
+					<input name="submit" class="button-primary" type="submit" value="Get Started!" />
+					</form>
+					</p>
+					</div>
 				</div>
 			</div>
 					
@@ -300,7 +308,10 @@ Computer: <?php echo $_SERVER['HTTP_USER_AGENT']. "\n"; ?>
 			<div id="shopp-ology-enjoy-this-plugin" class="postbox">
 				<h3 class="hndle"><span>Enjoy this Plugin?</span></h3>
 				<div class="inside">
-					<p><ol><li><strong>Rate it </strong><a href="http://wordpress.org/extend/plugins/shopp-ology/">5 stars on WordPress.org</li></a><li><strong>Spread social joy</strong> ;)<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://optimizemyshopp.com/blog/" data-text="Shopp + Ology for my #WordPress #ecommerce store" data-count="none" data-via="enzo12llc" data-related="lorenzocaum:entrepreneur">Tweet</a><script type="text/javascript" src="//platform.twitter.com/widgets.js"></script><br /><br /><div id="fb-root"></div>
+					<p>
+					<ol>
+					<li><strong>Rate it </strong><a href="http://wordpress.org/extend/plugins/shopp-ology/">5 stars on WordPress.org</a></li>
+					<li><strong>Spread social joy</strong> ;)<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://optimizemyshopp.com/blog/" data-text="Shopp + Ology for my #WordPress #ecommerce store" data-count="none" data-via="enzo12llc" data-related="lorenzocaum:entrepreneur">Tweet</a><script type="text/javascript" src="//platform.twitter.com/widgets.js"></script><br /><br /><div id="fb-root"></div>
 					<script>(function(d, s, id) {
  					var js, fjs = d.getElementsByTagName(s)[0];
   					if (d.getElementById(id)) {return;}
@@ -319,7 +330,10 @@ Computer: <?php echo $_SERVER['HTTP_USER_AGENT']. "\n"; ?>
     				po.src = 'https://apis.google.com/js/plusone.js';
     				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
   					})();
-					</script></li><li><strong>Express your kindness</strong> with a <a href="http://optimizemyshopp.com/go/donate-shopp-ology/">donation</a></li></p>		 
+					</script></li><li><strong>Express your kindness</strong> with a <a href="http://optimizemyshopp.com/go/donate-shopp-ology/">donation</a>
+					</li>
+					</ol>
+					</p>		 
 				</div>
 			</div>
 
@@ -331,20 +345,15 @@ Computer: <?php echo $_SERVER['HTTP_USER_AGENT']. "\n"; ?>
 				<?php _e('Recent posts from the blog:'); ?>
 				<?php
 				include_once(ABSPATH . WPINC . '/feed.php');
-
 				$rss = fetch_feed('http://feeds.feedburner.com/optimizemyshopp');
 				if (!is_wp_error( $rss ) ) : 
-				
     			$maxitems = $rss->get_item_quantity(7); 
-
     			$rss_items = $rss->get_items(0, $maxitems); 
 				endif;
 				?>
-
 				<ul>
     			<?php if ($maxitems == 0) echo '<li>No items.</li>';
     			else
-
     			foreach ( $rss_items as $item ) : ?>
     			<li>
         		<a href='<?php echo esc_url( $item->get_permalink() ); ?>'
@@ -359,19 +368,15 @@ Computer: <?php echo $_SERVER['HTTP_USER_AGENT']. "\n"; ?>
 			<div id="shopp-ology-recommendations" class="postbox">
 				<h3 class="hndle"><span>Recommended</span></h3>
 				<div class="inside">
-					<p>Want a better WordPress e-commerce site? <br /><br />You should order a WordPress e-commerce site analysis today! <a href="http://optimizemyshopp.com/store/wordpress-ecommerce-site-analysis/" title="Learn more about our site review">Learn more</a></p>
-					<p>What do you think about video tutorials for Shopp? <a href="http://shoppcreators.com" title="Learn more about Shopp video tutorials">Learn more</a></p>	
+					<p>Want a better WordPress e-commerce site? <br /><br />You should order a WordPress e-commerce site analysis today! <a href="http://optimizemyshopp.com/store/wordpress-ecommerce-site-analysis/" title="Learn more about our site review">Get more information now</a></p>
+					<p>What do you think about video tutorials for Shopp? <a href="http://shoppcreators.com" title="Learn more about Shopp video tutorials">Request an invite</a></p>
 				</div>
 			</div>
 
 		</div>
-		<br><br><br>
+		<br /><br /><br />
 	</div>
 </div>
 <?php	
 	}
 }
-
-new Shopp_Ology();
-
-?>
