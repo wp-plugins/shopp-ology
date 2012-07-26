@@ -2,7 +2,7 @@
 /*
 Plugin Name: Shopp + Ology
 Description: Generate information about your hosting environment to assist with troubleshooting WordPress and Shopp.
-Version: 1.0.1
+Version: 1.0.2
 Plugin URI: http://optimizemyshopp.com
 Author: Lorenzo Orlando Caum, Enzo12 LLC
 Author URI: http://enzo12.com
@@ -42,7 +42,7 @@ class Shopp_Ology {
 	}
 
 	public function init() {
-		wp_enqueue_style( 'shopp-ology-stylesheet', plugins_url( "css/shopp-ology.css", __FILE__ ), array(), '20121607' );
+		wp_enqueue_style( 'shopp-ology-stylesheet', plugins_url( "css/shopp-ology.css", __FILE__ ), array(), '20120725' );
 		
 		add_action('admin_menu', array($this, 'admin_menu'));
 	}
@@ -80,7 +80,7 @@ class Shopp_Ology {
 					<strong>Acknowledgements</strong>
 					<br />
 					<p>Credit to <a href="http://optimizemyshopp.com/go/adamsewell/" title="Get in touch with Adam">Adam Sewell</a>, <a href="http://optimizemyshopp.com/go/chrisrunnells/" title="Get in touch with Chris">Chris Runnells</a>, and <a href="http://optimizemyshopp.com/go/jonathandavis/" title="Get in touch with Jonathan Davis">Jonathan Davis</a> who answered my questions on how to retrieve certain data via PHP.</p>
-					<p>Credit to Barry Hughes who identified errors in this plugin and developed the groundwork for extending this plugin further. <a href="http://optimizemyshopp.com/go/barryhughes/" title="Get in touch with Barry Hughes">Go to Barry's website</a></p>
+					<p>Credit to Barry Hughes who identified errors in this plugin and developed the groundwork for extending it further. <a href="http://optimizemyshopp.com/go/barryhughes/" title="Get in touch with Barry Hughes">Go to Barry's website</a></p>
 				</div>
 			</div>
 
