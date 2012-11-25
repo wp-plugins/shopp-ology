@@ -306,7 +306,7 @@ Computer: <?php echo $_SERVER['HTTP_USER_AGENT']. "\n"; ?>
 			<div id="shopp-ology-have-a-question" class="postbox">
 				<h3 class="hndle"><span>Have a Question?</span></h3>
 				<div class="inside">
-                    <p>Open a <a href="http://optimizemyshopp.com/support/" title="Open a new support ticket with Optimize My Shopp">new support ticket</a> for Shopp + ActiveCampaign</p>
+                    <p>Open a <a href="http://optimizemyshopp.com/support/" title="Open a new support ticket with Optimize My Shopp">new support ticket</a> for Shopp + Ology</p>
                     <p>Learn about <a href="http://optimizemyshopp.com/resources/" title="Learn about extra Shopp resources">additional Shopp resources</a></p>
                     <p>Want awesome support from the Shopp Help Desk? <a title="How to Get Awesome Support on the Shopp Help Desk" href="http://optimizemyshopp.com/blog/how-to-get-awesome-support-from-the-shopp-help-desk/">Click here to read the post</a></p>
 				</div>
