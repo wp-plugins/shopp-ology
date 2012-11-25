@@ -2,7 +2,7 @@
 /*
 Plugin Name: Shopp + Ology
 Description: Generate information about your hosting environment to assist with troubleshooting WordPress and Shopp.
-Version: 1.0.3
+Version: 1.0.4
 Plugin URI: http://optimizemyshopp.com
 Author: Lorenzo Orlando Caum, Enzo12 LLC
 Author URI: http://enzo12.com
