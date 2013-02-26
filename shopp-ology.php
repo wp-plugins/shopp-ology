@@ -2,7 +2,7 @@
 /*
 Plugin Name: Shopp + Ology
 Description: Generate information about your hosting environment to assist with troubleshooting WordPress and Shopp.
-Version: 1.0.4
+Version: 1.0.5
 Plugin URI: http://optimizemyshopp.com
 Author: Lorenzo Orlando Caum, Enzo12 LLC
 Author URI: http://enzo12.com
@@ -25,15 +25,23 @@ License: GPLv2
 	along with this plugin.  If not, see <http://www.gnu.org/licenses/>. 
 */
 
-Shopp_Ology::smartLoad();
-
+function shopp_modern_version_check() {
+    if ( version_compare( SHOPP_VERSION , '1.2' , '<')) {
+            
+    require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+            
+    deactivate_plugins ( plugin_basename( __FILE__ ) );
+            
+    wp_die( __( 'This plugin requires at least Shopp 1.2.x. A current version of Shopp is not installed or is currently inactive. Please install and/or activate Shopp before activating the Shopp + Ology plugin.', 'shopp-ology' ), __( 'Shopp + Ology', 'shopp-ology' ), array( 'back_link' => true ));
+            
+    } else {
+        new Shopp_Ology();
+    }
+}
+add_action( 'plugins_loaded', 'shopp_modern_version_check' );
+        
 class Shopp_Ology {
 	public static $yourname;
-	
-	public static function smartLoad() {
-		$instantiate = apply_filters('shoppOlogyLoadBasic', true);
-		if ($instantiate) { new Shopp_Ology; }
-	}
 
 	public function __construct() {
 		add_action('shopp_init', array($this, 'init'));
@@ -142,15 +150,6 @@ echo 'installed'. "\n";
 **Shopp Information**
 				
 Version: <?php echo SHOPP_VERSION. "\n"; ?>
-<?php
-global $wpdb;
-$tablename = $wpdb->prefix . "shopp_meta";
-$updatekey = $wpdb->get_var( $wpdb->prepare( 
-"SELECT value 
-FROM $tablename 
-WHERE `type` = 'setting' 
-AND `name` = 'updatekey'" ) );
-echo "Support Access Key: {$updatekey}". "\n"; ?>
 <?php
 global $wpdb;
 $tablename = $wpdb->prefix . "shopp_meta";
@@ -312,44 +311,12 @@ Computer: <?php echo $_SERVER['HTTP_USER_AGENT']. "\n"; ?>
 				</div>
 			</div>
 
-			<div id="shopp-ology-enjoy-this-plugin" class="postbox">
-				<h3 class="hndle"><span>Enjoy this Plugin?</span></h3>
-				<div class="inside">
-					<p>
-					<ol>
-					<li><strong>Rate it </strong><a href="http://wordpress.org/extend/plugins/shopp-ology/">5 stars on WordPress.org</a></li>
-					<li><strong>Spread social joy</strong> ;)<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://optimizemyshopp.com" data-text="Shopp + Ology for my #WordPress #ecommerce store" data-count="none" data-via="enzo12llc" data-related="lorenzocaum:entrepreneur">Tweet</a><script type="text/javascript" src="//platform.twitter.com/widgets.js"></script><br /><br /><div id="fb-root"></div>
-					<script>(function(d, s, id) {
- 					var js, fjs = d.getElementsByTagName(s)[0];
-  					if (d.getElementById(id)) {return;}
-  					js = d.createElement(s); js.id = id;
-  					js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
-  					fjs.parentNode.insertBefore(js, fjs);
-					}(document, 'script', 'facebook-jssdk'));</script>
-
-					<div class="fb-like" data-href="http://optimizemyshopp.com" data-send="false" data-layout="button_count" data-width="5" data-show-faces="false" data-font="lucida grande">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><br /><br /> <!-- Place this tag where you want the +1 button to render -->
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<div class="g-plusone" data-annotation="inline" data-width="120" data-href="http://optimizemyshopp.com"></div>
-
-					<!-- Place this render call where appropriate -->
-					<script type="text/javascript">
-  					(function() {
-   		 			var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-    				po.src = 'https://apis.google.com/js/plusone.js';
-    				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-  					})();
-					</script></li>
-                    <li><strong>Express your kindness</strong> with a <a href="http://optimizemyshopp.com/go/donate-shopp-ology/">donation</a></li>
-					</ol>
-					</p>		 
-				</div>
-			</div>
-
 			<div id="shopp-ology-news-from-oms" class="postbox">
 				<h3 class="hndle"><span>News from Optimize My Shopp</span></h3>
 				<div class="inside">
-				<p>Free eBook<br /> <a href="http://optimizemyshopp.com/the-list/" title="Receive your free eBook delivered instantly to your inbox">10 Steps to a More Secure WordPress</a></p>
+				<p>Free eBook<br /> <a href="http://optimizemyshopp.com/newsletter/" title="Receive your free eBook delivered instantly to your inbox">10 Steps to a More Secure WordPress</a></p>
 				<p>White Papers<br /> <a href="http://optimizemyshopp.com/resources/white-papers/" title="Get your free white paper on creating a fast Shopp website">Speeding up your Shopp Ecommerce Website</a><br /><a href="http://optimizemyshopp.com/resources/white-papers/" title="Get your free white paper on using Shopp with caching plugins">Shopp + Caching Plugins</a></p>
-				<?php _e('Recent posts from the blog:'); ?>
+				<?php _e('Recent posts from the blog'); ?>
 				<?php
 				include_once(ABSPATH . WPINC . '/feed.php');
 				$rss = fetch_feed('http://feeds.feedburner.com/optimizemyshopp');
@@ -376,7 +343,7 @@ Computer: <?php echo $_SERVER['HTTP_USER_AGENT']. "\n"; ?>
 				<h3 class="hndle"><span>Recommended</span></h3>
 				<div class="inside">
                     <p>Need a Shopp developer to help you with your online store? <br /><a href="http://optimizemyshopp.com/store/wordpress-consulting/" title="Hire a Shopp developer today">Get in touch today</a></p>
-                    <p>What do you think about video tutorials for Shopp? <br /><a href="http://optimizemyshopp.com/go/shopp101/" title="Learn more about Shopp video tutorials">Request an invite</a></p>
+                    <p>What do you think about video tutorials for Shopp? <br /><a href="http://optimizemyshopp.com/go/shopp101/" title="Learn more about Shopp video tutorials">Join Shopp 101 today as a member</a></p>
 				</div>
 			</div>
 
